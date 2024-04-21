@@ -1,6 +1,19 @@
+import BlogList from "@/components/BlogList";
+import api from "@/services";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["blog list"],
+    queryFn: api.blog.findAll(),
+  });
+
   return (
     <main>
       <div className="px-3 py-4 sticky top-0 bg-gray-100 border-b-2 text-end text-base font-medium border-gray-300 shadow-md z-[9]">
@@ -10,6 +23,11 @@ export default function Home() {
         >
           Create blog
         </Link>
+      </div>
+      <div className="flex my-10 mx-3 gap-4 flex-wrap justify-center">
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <BlogList />
+        </HydrationBoundary>
       </div>
     </main>
   );

@@ -11,7 +11,7 @@ export default function BlogList() {
     queryFn: api.blog.findAll(),
   });
 
-  if (!blogs) {
+  if (!blogs || blogs.length === 0) {
     return <NoBlogs />;
   }
 

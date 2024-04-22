@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic"
 export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
